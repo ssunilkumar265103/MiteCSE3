@@ -30,10 +30,6 @@ public class MainActivity extends AppCompatActivity {
     private EditText password;
     private Button login;
     private Button signup;
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,20 +42,7 @@ public class MainActivity extends AppCompatActivity {
     mAuth = FirebaseAuth.getInstance();
     database = FirebaseDatabase.getInstance();
     myRef = database.getReference("message");
-    myRef.setValue("Hello World");
-
-    myRef.addValueEventListener(new ValueEventListener() {
-        @Override
-        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            String Value = dataSnapshot.getValue(String.class);
-            Toast.makeText(MainActivity.this,Value,Toast.LENGTH_LONG).show();
-        }
-
-        @Override
-        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-        }
-    });
+    myRef.setValue("Hello sunil");
 
     login.setOnClickListener(new View.OnClickListener() {
         Intent intent = new Intent(MainActivity.this,Main2Activity.class);
@@ -78,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
             String newuseremail=email.getText().toString();
             String newuserpwd=password.getText().toString();
             mAuth.createUserWithEmailAndPassword(newuseremail,newuserpwd);
-
         }
     });
     }
