@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText password;
     private Button login;
     private Button signup;
+    private Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,17 +43,25 @@ public class MainActivity extends AppCompatActivity {
     mAuth = FirebaseAuth.getInstance();
     database = FirebaseDatabase.getInstance();
     myRef = database.getReference("message");
-    myRef.setValue("Hello sunil");
+    myRef.setValue("Hello sunil kumar welcome");
+    intent = new Intent(MainActivity.this,HomePage.class);
+
 
     login.setOnClickListener(new View.OnClickListener() {
-        Intent intent = new Intent(MainActivity.this,Main2Activity.class);
+
         @Override
         public void onClick(View v) {
             String emailstring=email.getText().toString();
             String pwd = password.getText().toString();
             if(emailstring!=null)
-                mAuth.signInWithEmailAndPassword(emailstring,pwd);
-            startActivity(intent);
+                mAuth.signInWithEmailAndPassword(emailstring,pwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful())
+                            startActivity(intent);
+                    }
+                });
+
         }
     });
     signup.setOnClickListener(new View.OnClickListener() {
@@ -64,5 +73,13 @@ public class MainActivity extends AppCompatActivity {
         }
     });
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(mAuth.getCurrentUser()!=null)
+            startActivity(intent);
+    }
 }
+
 
