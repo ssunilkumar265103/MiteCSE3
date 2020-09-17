@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.common.data.SingleRefDataBufferIterator;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -30,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText password;
     private Button login;
     private Button signup;
-    private Intent intent;
+    private Intent intent_admin_page;
+    private Intent intent1_user_page;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,21 +46,28 @@ public class MainActivity extends AppCompatActivity {
     database = FirebaseDatabase.getInstance();
     myRef = database.getReference("message");
     myRef.setValue("Hello sunil kumar welcome");
-    intent = new Intent(MainActivity.this,HomePage.class);
-
+    intent_admin_page = new Intent(MainActivity.this,HomePage.class);
+    intent1_user_page = new Intent(MainActivity.this,ViewCircularMsg.class);
 
     login.setOnClickListener(new View.OnClickListener() {
 
         @Override
         public void onClick(View v) {
-            String emailstring=email.getText().toString();
-            String pwd = password.getText().toString();
+            final String emailstring=email.getText().toString();
+            final String pwd = password.getText().toString();
             if(emailstring!=null)
                 mAuth.signInWithEmailAndPassword(emailstring,pwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    String email = emailstring;
+                    String pwd1 = pwd;
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful())
-                            startActivity(intent);
+                            Toast.makeText(MainActivity.this,pwd1,Toast.LENGTH_LONG).show();
+                            if(pwd1.equals("admin123"))
+                                startActivity(intent_admin_page);
+                            else
+                                startActivity(intent1_user_page);
+
                     }
                 });
 
@@ -78,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         if(mAuth.getCurrentUser()!=null)
-            startActivity(intent);
+            ;//startActivity(intent);
     }
 }
 
