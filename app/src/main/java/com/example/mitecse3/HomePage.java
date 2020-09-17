@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
@@ -36,6 +37,7 @@ public class HomePage extends AppCompatActivity {
             public void onClick(View v) {
                 String msg = cirular_msg.getText().toString();
                 myRef2.push().setValue(msg);
+                Toast.makeText(HomePage.this,"Added",Toast.LENGTH_LONG).show();
             }
         });
         view_msg.setOnClickListener(new View.OnClickListener() {

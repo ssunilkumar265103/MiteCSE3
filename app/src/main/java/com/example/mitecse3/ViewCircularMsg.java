@@ -14,6 +14,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 public class ViewCircularMsg extends AppCompatActivity {
 
@@ -31,6 +33,7 @@ public class ViewCircularMsg extends AppCompatActivity {
         myRef3 = db3.getReference("Notices3");
         arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,arrayList);
         arrayList.add("test1");
+        arrayList.clear();
         circular_msg_list.setAdapter(arrayAdapter);
         myRef3.addValueEventListener(new ValueEventListener() {
             @Override
@@ -38,6 +41,7 @@ public class ViewCircularMsg extends AppCompatActivity {
                 for (DataSnapshot snapshot:dataSnapshot.getChildren()){
                     arrayList.add(snapshot.getValue().toString());
                 }
+                Collections.reverse(arrayList);
                 arrayAdapter.notifyDataSetChanged();
 
             }
